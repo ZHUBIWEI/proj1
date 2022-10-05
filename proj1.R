@@ -1,11 +1,11 @@
 #XXXXXXXXXXXXXXXXXXXXXXXX proj1.R XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 # Biwei Zhu, s2325784
 # Guanhao Su, s2301705
-#
+# Shuying Liu, s2436365
 
 #XXXXXXXXXXXXXXXXXXXXXXXX Contribution XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 #XXXXXXXXXXXXXXXXXXXXXXXX The PATH XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-setwd("")
+setwd("D:/Edinburgh/Courses_study/Statistical programming/Project1/proj1")
 # setwd("put/your/local/repo/location/here")
 # setwd("put/your/local/repo/location/here")
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -81,6 +81,7 @@ split_punct <- function(x){
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 splited_text<- split_punct(a)
+splited_text
 
 len_splited <- length(splited_text)
 
