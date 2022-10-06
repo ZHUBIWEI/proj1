@@ -56,6 +56,10 @@ b <- uniq_w[most_500]
 
 
 
+
+
+
+
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXX  Question 8  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 rand_b <- 1:length(b)
