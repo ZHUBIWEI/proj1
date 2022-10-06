@@ -33,7 +33,7 @@ split_punct <- function(old,punct){
   rep_i[punct_i] <- 2
   old <- gsub(punct,"",old,fixed=TRUE)
   new <- rep(old,rep_i)
-  new[punct_i+1:length(punct_i] <- punct
+  new[punct_i+1:length(punct_i)] <- punct
   new
 }
 
@@ -52,7 +52,7 @@ uniq_match <- match(lower_a,uniq_w) # Match bible to the unique words
 
 freq_uniq <- tabulate(uniq_match) # Count the frequeny of times of occuring words
 
-# Choosing the top 500 the most common words
+# Choosing the top 500 most common words
 m <- 500
 
 up_order <- order(freq_uniq) # Sort the freq_uniq in ascending order
