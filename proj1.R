@@ -42,12 +42,13 @@ for (punct in c(",",".",";","!",":","?")) a <- split_punct(a,punct)
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Question 6 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 #split_t <- split_punct(a)
+######split_t>a, lowercase>lower_a
 len_splited <- length(a)
-lowercase <- tolower(a)
+lower_a <- tolower(a)
 
-uniq_w <- unique(lowercase) # Find the unique element
+uniq_w <- unique(lower_a) # Find the unique element
 
-uniq_match <- match(lowercase,uniq_w) # Match bible to the unique words
+uniq_match <- match(lower_a,uniq_w) # Match bible to the unique words
 
 freq_uniq <- tabulate(uniq_match) # Count the frequeny of times of occuring words
 
