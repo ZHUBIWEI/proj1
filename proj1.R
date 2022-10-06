@@ -1,4 +1,4 @@
-#XXXXXXXXXXXXXXXXXXXXXXXX proj1.R XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#XXXXXXXXXXXXXXXXXXXXXXXX proj1.r XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # This project aims to generate text that matches word patterns seen in the Bible, using a 2nd order Markov model.
 
@@ -9,14 +9,14 @@
 #XXXXXXXXXXXXXXXXXXXXXXXX Contribution XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Shuying Liu completed the function split_punct and separate the punctuation marks, modified the A and S in question 7, completed question 10
-# Biwei Zhu completed the question 6
-# Guanhao Su completed the question 7 (a),(b),(c),(d),(e)
-# Biwei Zhu and Guanhao Su completed the question 8 and 9 together
+# Biwei Zhu found the 500 most commonly occurring words in Bible(question 6)
+# Guanhao Su completed the T,A and S which are used to generate Bible sentences(question 7)
+# Biwei Zhu and Guanhao Su generated the Bible sentences by using T,A and S together(question 8 and 9)
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Please change the below to your local repo directory
-setwd("D:\\Edinburgh\\Statistical Programming\\proj1")
+setwd("C:/Statistical programming/coursework 1/proj1")
 
 a <- scan("pg10.txt",what="character",skip=104) ## skip contents
 n <- length(a)
@@ -35,6 +35,7 @@ split_punct <- function(old,punct){
   rep_i[punct_i] <- 2
   old <- gsub(punct,"",old,fixed=TRUE)
   new <- rep(old,rep_i)
+  #insert punctuations back
   new[punct_i+1:length(punct_i)] <- punct
   new
 }
@@ -51,7 +52,7 @@ uniq_w <- unique(lower_a) # Find the unique element
 
 uniq_match <- match(lower_a,uniq_w) # Match bible to the unique words
 
-freq_uniq <- tabulate(uniq_match) # Count the frequeny of times of occuring words
+freq_uniq <- tabulate(uniq_match) # Count the frequency of each occuring words
 
 # Choosing the top 500 most common words and storing them in b
 m <- 500
@@ -62,7 +63,7 @@ most_500 <- up_order[(length(up_order)- m + 1):length(up_order)] # The index of 
 
 b <- uniq_w[most_500]
 
-# Identify words that most often start with a capital letter, then modify b
+# Identify words that most often start with a capital letter, then modify b(question 10)
 b_new <- b
 for (i in 1:m){
   a_word <- a[lower_a==b_new[i]]
@@ -77,7 +78,7 @@ c1 <- match(lower_a,b)
 c2 <- cbind(c1[1:n-1],c1[2:n])
 c3 <- cbind(c1[1:(n-2)],c1[2:(n-1)],c1[3:n])
 
-# Remove the rows with NA
+# Remove the rows with NA in c1,c2 and c3
 cw1 <- c1[!is.na(c1)]
 cw2 <- c2[!is.na(rowSums(c2)),]
 cw3 <- c3[!is.na(rowSums(c3)),]
@@ -100,14 +101,14 @@ S <- tabulate(cw1)
 
 # Generate a 50-word text from T, A, S
 # Randomly pick two words to start generating text
-word_i <- sample(1:m,size=1,prob=S)
+word_i <- sample(1:m,size=1,prob=S)#prob means we select a word according to the value in S 
 if (sum(A[word_i,])){
   word_k <- sample(1:m,size=1,prob=A[word_i,])
 }else{
   word_k <- sample(1:m,size=1,prob=S)
 }
 
-# Complete the composition of sentences in the Bible by Markov chain
+# Complete the rest of sentences in the Bible by Markov chain
 sample_index <- array(0,50)
 sample_index[1:2] <- c(word_i,word_k)
 
@@ -126,8 +127,9 @@ for (i in 3:50)
 }
 
 # Print out biblical sentences formed by quadratic Markov chains
-cat("Text generated from T, A and S:\n\n")
-cat(b[sample_index],"\n\n(q10)\n")
+cat("Text generated from T, A and S:\n")
+cat(b[sample_index],"\n\n")
+#Text generated with some capital words ,easy to compare with sentences in lower case.(question 10)
 cat(b_new[sample_index],"\n\n")
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXX  Question 9  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -135,6 +137,6 @@ cat(b_new[sample_index],"\n\n")
 # Generate a 50-word text from just S
 rand_index_S <- sample(1:m,size=50,replace=TRUE,prob=S)
 
-cat("Text generated from just S:\n\n")
+cat("Text generated from just S:\n")
 cat(b[rand_index_S])
 
