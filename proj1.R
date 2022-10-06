@@ -6,7 +6,7 @@
 
 #XXXXXXXXXXXXXXXXXXXXXXXX Contribution XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Shuying Liu completed the function split_punct and separate the punctuation marks, modified the A and S in question 7, completed question 10.
+# Shuying Liu completed the function split_punct and separate the punctuation marks, modified the A and S in question 7, completed question 10
 # Biwei Zhu completed the question 6
 # Guanhao Su completed the question 7 (a),(b),(c),(d),(e)
 # Biwei Zhu and Guanhao Su completed the question 8 and 9 together
@@ -39,7 +39,7 @@ split_punct <- function(old,punct){
 
 for (punct in c(",",".",";","!",":","?")) a <- split_punct(a,punct)
 
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Question 6, 10 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Question 6, 10 XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Generate b containing most common words
 len_splited <- length(a)
@@ -70,16 +70,15 @@ for (i in 1:m){
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  Question 7  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 #XXXXXXXXXXXXXXXXXXXXXXXXXXX  Generating T, A, S  XXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-match_T <- match(lower_a,b)
 # c1, c2, c3 store the adjacent common words
-c3 <- cbind(match_T[1:(length(match_T)-2)],match_T[2:(length(match_T)-1)],match_T[3:length(match_T)])
-c2 <- c3[,c(1,2)]
-c1 <- c3[,1]
+c1 <- match(lower_a,b)
+c2 <- cbind(c1[1:n-1],c1[2:n])
+c3 <- cbind(c1[1:(n-2)],c1[2:(n-1)],c1[3:n])
 
 # Remove the rows with NA
-cw3 <- c3[!is.na(rowSums(c3)),]
-cw2 <- c2[!is.na(rowSums(c2)),]
 cw1 <- c1[!is.na(c1)]
+cw2 <- c2[!is.na(rowSums(c2)),]
+cw3 <- c3[!is.na(rowSums(c3)),]
 
 # Initialize T, A, S to matrices of zeros
 T <- array(0,c(m,m,m))
@@ -94,9 +93,7 @@ for (rnum in 1:nrow(cw3)){
 for (rnum in 1:nrow(cw2)){
   A[cw2[rnum,1],cw2[rnum,2]] <- A[cw2[rnum,1],cw2[rnum,2]]+1
 }
-for (i in 1:length(cw1)){
-  S[cw1[i]] <- S[cw1[i]]+1
-}
+S <- tabulate(cw1)
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXX  Question 8  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
