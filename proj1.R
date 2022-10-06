@@ -6,12 +6,14 @@
 
 #XXXXXXXXXXXXXXXXXXXXXXXX Contribution XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Shuying Liu completed the function split_punct and separate the punctuation marks. And modified the A and S in question 7.
+# Shuying Liu completed the function split_punct and separate the punctuation marks, modified the A and S in question 7, completed question 10.
 # Biwei Zhu completed the question 6
 # Guanhao Su completed the question 7 (a),(b),(c) and (d)
 # Biwei Zhu and Guanhao Su completed the question 8 and 9 together
 
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXX PATH XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+#please change the below to your local repo directory
 setwd("D:/Edinburgh/Courses_study/Statistical programming/Project1/proj1")
 
 a <- scan("pg10.txt",what="character",skip=104) ## skip contents
@@ -19,17 +21,29 @@ n <- length(a)
 a <- a[-((n-2886):n)] ## strip license
 a <- a[-grep("[0123456789]:[0123456789]",a)] ## strip out verse numbers
 
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+############################ Q 4-5 ##########################################
 
+#pre-process a, remove special punctuations
+a <- gsub("[()*]","",a)
 
+#separate required punctuations
+split_punct <- function(old,punct){
+  rep_i <- rep(1,length(old))
+  punct_i <- grep(punct,old,fixed=TRUE)
+  rep_i[punct_i] <- 2
+  old <- gsub(punct,"",old,fixed=TRUE)
+  new <- rep(old,rep_i)
+  new[punct_i+1:length(punct_i] <- punct
+  new
+}
 
-
+for (punct in c(",",".",";","!",":","?")) a <- split_punct(a,punct)
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Question 6 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-split_t <- split_punct(a)
-len_splited <- length(split_t)
-lowercase <- tolower(split_t)
+#split_t <- split_punct(a)
+len_splited <- length(a)
+lowercase <- tolower(a)
 
 uniq_w <- unique(lowercase) # Find the unique element
 
