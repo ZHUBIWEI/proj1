@@ -1,120 +1,91 @@
 #XXXXXXXXXXXXXXXXXXXXXXXX proj1.R XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 # Biwei Zhu, s2325784
 # Guanhao Su, s2301705
 # Shuying Liu, s2436365
 
 #XXXXXXXXXXXXXXXXXXXXXXXX Contribution XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXXXXXXXXXXX The PATH XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Shuying Liu completed the function split_punct and separate the punctuation marks. And modified the A and S in question 7.
+# Biwei Zhu completed the question 6
+# Guanhao Su completed the question 7 (a),(b),(c) and (d)
+# Biwei Zhu and Guanhao Su completed the question 8 and 9 together
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXX PATH XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 setwd("D:/Edinburgh/Courses_study/Statistical programming/Project1/proj1")
-# setwd("put/your/local/repo/location/here")
-# setwd("put/your/local/repo/location/here")
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 a <- scan("pg10.txt",what="character",skip=104) ## skip contents
 n <- length(a)
 a <- a[-((n-2886):n)] ## strip license
 a <- a[-grep("[0123456789]:[0123456789]",a)] ## strip out verse numbers
 
-<<<<<<< HEAD
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXXXXX split_punct XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# test = c("An", "omnishambles,", "in", "a", "headless", "chicken", "factory", ",")
-
-is.integer0 <- function(x)
-{
-  is.integer(x) & (length(x) == 0L)
-}
-
-
-split_punct <- function(x){
-  #1.The function should search for each word containing the punctuation mark.
-  #2.remove it from the word, and add it as a new entry in the vector of words #after the word it came from. 
-  
-  ls <- c(",", ".", ";", "!", ":", "?", "’")
-  lenl <- length(ls)
-  lenA <- 0 
-  lenx <- length(x)
-  
-  for(i in 1:lenl) {
-    #find the location of the words that contains punctuation.
-    # if fixed=TRUE, return value will become the corresponding repo of pattern.
-    #position ls[i] in x
-    location_has_punct <- grep(ls[i],x,fixed=TRUE)
-    
-    #clear the punctuation from the words have that punctuation
-    x[location_has_punct] <- gsub(ls[i],"",x[location_has_punct], fixed=TRUE) 
-    
-    #The length of spilted punctuation
-    lenA <- lenA + length(location_has_punct)
-    
-    #The total length for each loop
-    Total_len <- lenA + lenx
-    
-    #xs is a vector to store the single digits
-    xs <- rep(0,Total_len) 
-    
-    #A is the location for a punctuation to insert in this loop
-    A <- location_has_punct + 1:length(location_has_punct)
-    xs[A] <- ls[i]
-    
-    #avoid the case that there is no punctuation in each loop
-    if(is.integer0(location_has_punct)){
-      xs <-x
-    } else {
-      xs[-A] <- x
-    }
-    x <- xs
-  }
-  return(x)
-}
 
 
 
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXXXXX SPLIT-PUNCT END XXXXXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXXX M FREQUENT WORDS XXXXXXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-splited_text<- split_punct(a)
-splited_text
-
-len_splited <- length(splited_text)
-
-lower_splited_text <- tolower(splited_text)
-
-# find the unique element of the splited text
-unique_words <- unique(lower_splited_text,incomparables = NULL)
-
-# match each word to the unique words
-vector_match <- match(lower_splited_text,unique_words,incomparables = NULL)
-
-cat(length(vector_match) == length(splited_text))#whether there is any blank,可以删掉
-
-# count the number of times of occuring words
-count_unique_words <- tabulate(vector_match)
 
 
-# choosing the top 500 words
+
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Question 6 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+split_t <- split_punct(a)
+len_splited <- length(split_t)
+lowercase <- tolower(split_t)
+
+uniq_w <- unique(lowercase) # Find the unique element
+
+uniq_match <- match(lowercase,uniq_w) # Match bible to the unique words
+
+freq_uniq <- tabulate(uniq_match) # Count the frequeny of times of occuring words
+
+# Choosing the top 500 the most common words
 m <- 500
 
-Order <- order(count_unique_words)#rearrange count_unique_words in upgrading order
+up_order <- order(freq_uniq) # Sort the freq_uniq in ascending order
 
-most_common_word <- Order[(length(Order)- m + 1):length(Order)]#出现最多的500个单词在unique_words的下标
+most_500 <- up_order[(length(up_order)- m + 1):length(up_order)] # The index of the top 500 most common words
 
-b <- unique_words[most_common_word]
+b <- uniq_w[most_500]
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXX M FREQUENT WORDS END  XXXXXXXXXXXXXXX
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-=======
->>>>>>> bb2ed3de64f6ac4fa86d2ba5eee661048b9954de
+
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXX  Question 8  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+rand_b <- 1:length(b)
+rand_index <- sample(rand_b,size = 2,replace = TRUE) # Two random words from b are used as the premises of the quadratic Markov chain
+
+# Complete the composition of sentences in the Bible by Markov chain
+sample_index <- rep(0,50)
+sample_index[1] <- rand_index[1]
+sample_index[2] <- rand_index[2]
+
+for (i in 3:50)
+{
+  if (sum(T[sample_index[i-2],sample_index[i-1],])!=0){
+    rand_index <- sample(1:length(b),size = 1,prob=T[sample_index[i-2],sample_index[i-1],])
+  }
+  else if(sum(A[sample_index[i-1],]) != 0){
+    rand_index <- sample(1:length(b),size = 1,prob=A[sample_index[i-1],])
+  }
+  else{
+    rand_index <- sample(1:length(b),size = 1,prob=S[sample_index[i]])
+    
+  }
+  sample_index[i] <- rand_index
+}
+
+cat(b[sample_index]) # Print out biblical sentences formed by quadratic Markov chains
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
 
 
 
