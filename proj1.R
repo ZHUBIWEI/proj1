@@ -13,7 +13,7 @@
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-#please change the below to your local repo directory
+# Please change the below to your local repo directory
 setwd("D:/Edinburgh/Courses_study/Statistical programming/Project1/proj1")
 
 a <- scan("pg10.txt",what="character",skip=104) ## skip contents
@@ -23,7 +23,7 @@ a <- a[-grep("[0123456789]:[0123456789]",a)] ## strip out verse numbers
 
 ############################ Q 4-5 ##########################################
 
-#pre-process a, remove special punctuations
+# Pre-process a, remove special punctuations
 a <- gsub("[()*]","",a)
 
 #separate required punctuations
@@ -41,8 +41,8 @@ for (punct in c(",",".",";","!",":","?")) a <- split_punct(a,punct)
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Question 6 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-#split_t <- split_punct(a)
-######split_t>a, lowercase>lower_a
+# a <- split_punct(a)
+# a>a, lowercase>lower_a
 len_splited <- length(a)
 lower_a <- tolower(a)
 
