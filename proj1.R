@@ -1,5 +1,7 @@
 #XXXXXXXXXXXXXXXXXXXXXXXX proj1.R XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+# This project aims to generate text that matches word patterns seen in the Bible, using a 2nd order Markov model.
+
 # Biwei Zhu, s2325784
 # Guanhao Su, s2301705
 # Shuying Liu, s2436365
@@ -80,10 +82,9 @@ cw1 <- c1[!is.na(c1)]
 cw2 <- c2[!is.na(rowSums(c2)),]
 cw3 <- c3[!is.na(rowSums(c3)),]
 
-# Initialize T, A, S to matrices of zeros
+# Initialize T, A to matrices of zeros
 T <- array(0,c(m,m,m))
 A <- array(0,c(m,m))
-S <- array(0,m)
 
 # Generate T, A, S
 # When i,k,j is a common_pair(j joins after i and k), the time increases by one
